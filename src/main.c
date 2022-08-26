@@ -7,7 +7,7 @@
 #include "driver/uart.h"
 #include "esp_log.h"
 //Stepper motor definitions
-#define CONFIG_BUTTON_PIN 0 //Motoru durdurmak için esp32 boot tuşunun pin numarası
+#define CONFIG_BUTTON_PIN 0 //To stop the stepper motor
 #define ESP_INTR_FLAG_DEFAULT 0
 #define STEP_PIN 19
 #define DIR_PIN 18
@@ -22,7 +22,7 @@ static const int RX_BUF_SIZE = 1024;
 TaskHandle_t motor_move_handle = NULL; //motor move handle
 
 
-int dummy_pose = 0;
+//int dummy_pose = 0;
 int *pos ;
 int *curr_pos ;
 bool start_move = false;
@@ -114,7 +114,7 @@ void motor_move_position()
     }
     }
 } 
-
+//UART init function: initializes uart configs.
 void uart_init(void) 
 {
     const uart_config_t uart_config = {
@@ -131,6 +131,8 @@ void uart_init(void)
     uart_param_config(UART, &uart_config);
     uart_set_pin(UART, TXD_PIN, RXD_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
 }
+
+//RX task function: receiving data from another esp32
 static void rx_task(void *arg)
 {
     
